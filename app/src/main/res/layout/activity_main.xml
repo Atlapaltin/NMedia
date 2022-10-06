@@ -16,11 +16,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_netology_48dp"
-        tools:layout_editor_absoluteX="49dp"
-        tools:layout_editor_absoluteY="17dp" />
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="158dp"
+        tools:srcCompat="@sample/posts_avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
