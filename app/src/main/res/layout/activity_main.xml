@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/indent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="ExtraText">
 
     <ImageView
         android:id="@+id/avatar"
@@ -29,7 +30,7 @@
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="@sample/posts.json/data/author" />
+        tools:text="Нетология. Университет интернет-профессий будущего"/>
 
     <TextView
         android:id="@+id/published"
@@ -39,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/author"
-        tools:text="@sample/posts.json/data/published" />
+        tools:text="21 мая в 18:36"/>
 
     <ImageButton
         android:id="@+id/menu"
@@ -64,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/indent"
         app:layout_constraintTop_toBottomOf="@id/barrierTop"
-        tools:text="@sample/posts.json/data/content" />
+        tools:text="Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb" />/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrierBottom"
@@ -93,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@id/barrierBottom"
         app:layout_constraintStart_toEndOf="@id/likeSign"
         android:background="@android:color/transparent"
-        tools:text="@sample/posts.json/data/likesNumber" />
+        />
 
     <ImageButton
         android:id="@+id/shareSign"
@@ -116,7 +117,7 @@
         app:layout_constraintTop_toBottomOf="@id/barrierBottom"
         app:layout_constraintStart_toEndOf="@id/shareSign"
         android:background="@android:color/transparent"
-        tools:text="@sample/posts.json/data/sharesNumber" />
+         />
 
     <ImageButton
         android:id="@+id/viewsNumberSign"
@@ -139,6 +140,6 @@
         app:layout_constraintTop_toBottomOf="@id/barrierBottom"
         app:layout_constraintEnd_toEndOf="@id/content"
         android:background="@android:color/transparent"
-        tools:text="@sample/posts.json/data/viewsNumber" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
