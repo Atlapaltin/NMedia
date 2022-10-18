@@ -13,10 +13,6 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        @DrawableRes
-        fun getLikeIconResId(liked: Boolean) =
-            if (liked) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
-
         val viewModel: PostViewModel by viewModels()
         viewModel.data.observe(this) { post ->
             with(binding) {
@@ -26,17 +22,17 @@ class MainActivity : AppCompatActivity() {
                 likesNumberFigure.text = Calculations.postStatistics(post.likes)
                 sharesNumberFigure.text = Calculations.postStatistics(post.shared)
                 viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
+                likeSign.setImageResource(
+                    if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
+                )
             }
 
             binding.likeSign.setOnClickListener {
-                post.likedByMe = !post.likedByMe
-                binding.likeSign.setImageResource(getLikeIconResId(post.likedByMe))
-                if (post.likedByMe) post.likes++ else post.likes--
-
+                viewModel.likeSign()
             }
-            binding.shareSign.setOnClickListener {
-                post.shared++
 
+            binding.shareSign.setOnClickListener {
+                viewModel.sharing()
             }
         }
     }
