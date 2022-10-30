@@ -113,15 +113,15 @@ class PostRepositoryInMemoryImpl : PostRepository {
     }
 
     override fun shareById(id:Long) {
-        posts = posts.map {it.copy(shared=it.shared +1)}
-        //posts = posts.copy(shared = posts.shared + 1)
+        posts = posts.map {
+            if (it.id != id) it else it.copy(shared=it.shared +1)}
         data.value = posts
 
     }
 
     override fun viewById(id:Long) {
-        posts = posts.map {it.copy(viewed=it.viewed +1)}
-        //posts = posts.copy(viewed = posts.viewed + 1)
+        posts = posts.map {
+            if (it.id != id) it else it.copy(viewed=it.viewed +1)}
         data.value = posts
 
     }
