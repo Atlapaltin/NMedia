@@ -5,7 +5,11 @@ import androidx.activity.viewModels
 import androidx.annotation.DrawableRes
 import ru.netology.nmedia.PostViewModel
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.post_card_layout.*
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.ActivityMainBinding.inflate
+import ru.netology.nmedia.databinding.PostCardLayoutBinding
+import ru.netology.nmedia.databinding.PostCardLayoutBinding.inflate
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,28 +18,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val viewModel: PostViewModel by viewModels()
-        viewModel.data.observe(this) { post ->
-            with(binding) {
-                author.text = post.authorName
-                published.text = post.publishDate
-                content.text = post.postContent
-                likesNumberFigure.text = Calculations.postStatistics(post.likes)
-                sharesNumberFigure.text = Calculations.postStatistics(post.shared)
-                viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
-                likeSign.setImageResource(
-                    if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
-                )
-            }
+        val adapter = PostsAdapter ( likeListener = {
+            viewModel.likeById(it.id)}, shareListener = {viewModel.shareById(it.id)})
+        binding.list.adapter = adapter
 
-            binding.likeSign.setOnClickListener {
-                viewModel.likeSign()
-            }
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
 
-            binding.shareSign.setOnClickListener {
-                viewModel.sharing()
+
+                }
             }
         }
-    }
-}
-
-
