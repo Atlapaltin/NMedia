@@ -5,4 +5,10 @@
     <string name="description_post_likes">Number of likes</string>
     <string name="description_post_shares">Number of shares</string>
     <string name="description_post_views">Number of views</string>
+    <string name="description_post_remove">Remove post</string>
+    <string name="description_post_hint">Enter the text of your post</string>
+    <string name="description_post_save_button">Save</string>
+    <string name="description_post_cancel_button">Cancel editing</string>
+    <string name="description_post_empty_post">Post cannot be empty, write something</string>
+    <string name="description_post_edit">Edit post</string>
 </resources>

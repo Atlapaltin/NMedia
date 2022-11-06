@@ -2,20 +2,26 @@ package ru.netology.nmedia
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.databinding.PostCardLayoutBinding
 
-typealias OnLikeListener = (Post) -> Unit
-typealias OnShareListener = (Post) -> Unit
+interface OnInteractionListener {
+    fun onEdit(post: Post)
+    fun onRemove(post: Post)
+    fun onLike(post: Post)
+    fun onShare(post: Post)
+}
 
-class PostsAdapter (private val likeListener: OnLikeListener, private val shareListener: OnShareListener):
-    ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
+class PostsAdapter (
+    private val interactionListener: OnInteractionListener):
+    ListAdapter<Post, PostViewHolder>(PostViewHolder.PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = PostCardLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(view, likeListener, shareListener)
+        return PostViewHolder(view, interactionListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -25,11 +31,10 @@ class PostsAdapter (private val likeListener: OnLikeListener, private val shareL
 
 class PostViewHolder (
     private val binding: PostCardLayoutBinding,
-    private val likeListener: OnLikeListener,
-    private val shareListener: OnShareListener
-) : RecyclerView.ViewHolder(binding.root) {
+    private val interactionListener: OnInteractionListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind (post:Post) {
+    fun bind(post: Post) {
         binding.apply {
             author.text = post.authorName
             published.text = post.publishDate
@@ -38,24 +43,42 @@ class PostViewHolder (
             sharesNumberFigure.text = Calculations.postStatistics(post.shared)
             viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
             likeSign.setImageResource(
-                if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24)
+                if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
+            )
             likeSign.setOnClickListener {
-                likeListener(post)
+                interactionListener.onLike(post)
             }
             shareSign.setOnClickListener {
-                shareListener(post)
+                interactionListener.onShare(post)
+            }
+            menu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.options_post)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.remove -> {
+                                interactionListener.onRemove(post)
+                                true
+                            }
+                            R.id.edit -> {
+                                interactionListener.onEdit(post)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }.show()
             }
         }
     }
-}
 
-class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-        return oldItem.id == newItem.id
+    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem == newItem
+        }
     }
-
-    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-        return oldItem == newItem
-    }
-
 }

@@ -6,4 +6,10 @@
     <string name="description_post_likes">Количество лайков</string>
     <string name="description_post_shares">Количество репостов</string>
     <string name="description_post_views">Количество просмотров</string>
+    <string name="description_post_remove">Удалить пост</string>
+    <string name="description_post_hint">Введите текст поста</string>
+    <string name="description_post_save_button">Сохранить</string>
+    <string name="description_post_empty_post">Содержание поста не может быть пустым. Напишите что-нибудь</string>
+    <string name="description_post_edit">Редактировать пост</string>
+    <string name="description_post_cancel_button">Отменить редактирование</string>
 </resources>
