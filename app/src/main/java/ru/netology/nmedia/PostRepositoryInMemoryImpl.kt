@@ -7,6 +7,7 @@ import ru.netology.nmedia.Post
 class PostRepositoryInMemoryImpl : PostRepository {
     private var nextId = 1L
     private var posts = listOf(
+
         Post(
             id = nextId++,
             authorName = "Нетология. Университет интернет-профессий будущего",
@@ -17,6 +18,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             shared = 9999,
             viewed = 1_999_999
         ),
+
         Post(
             id = nextId++,
             authorName = "Нетология. Университет интернет-профессий будущего",
@@ -27,6 +29,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             shared = 9999,
             viewed = 1_999_999
         ),
+
         Post(
             id = nextId++,
             authorName = "Нетология. Университет интернет-профессий будущего",
@@ -37,6 +40,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             shared = 9999,
             viewed = 1_999_999
         ),
+
         Post(
             id = nextId++,
             authorName = "Нетология. Университет интернет-профессий будущего",
@@ -118,7 +122,6 @@ class PostRepositoryInMemoryImpl : PostRepository {
             if (it.id != id) it else it.copy(shared = it.shared + 1)
         }
         data.value = posts
-
     }
 
     override fun viewById(id: Long) {
@@ -140,15 +143,14 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     id = nextId++,
                     authorName = "Нетология",
                     likedByMe = false,
-                    publishDate = "Now"
+                    publishDate = "Только что"
                 )
             ) + posts
         } else {
-            posts = posts.map {
+            posts.map {
                 if (it.id != post.id) it else it.copy(postContent = post.postContent)
             }
-            data.value = posts
-            return
         }
+        data.value = posts
     }
 }
