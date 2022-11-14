@@ -39,12 +39,20 @@ class PostViewHolder (
             author.text = post.authorName
             published.text = post.publishDate
             content.text = post.postContent
-            likesNumberFigure.text = Calculations.postStatistics(post.likes)
-            sharesNumberFigure.text = Calculations.postStatistics(post.shared)
-            viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
-            likeSign.setImageResource(
-                if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
-            )
+            //likesNumberFigure.text = Calculations.postStatistics(post.likes)
+            likeSign.text = Calculations.postStatistics(post.likes)
+            shareSign.text = Calculations.postStatistics(post.shared)
+            viewsNumberSign.text = Calculations.postStatistics(post.viewed)
+           //sharesNumberFigure.text = Calculations.postStatistics(post.shared)
+            // viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
+            likeSign.isChecked = post.likedByMe //определяем, нажата ли иконка лайка
+                                                // (он сейчас в xml -файле в виде selector)
+
+            //likesNumberFigure.text = post.likes.toString()
+
+            // likeSign.setImageResource(
+           //     if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
+          //  )
             likeSign.setOnClickListener {
                 interactionListener.onLike(post)
             }

@@ -42,11 +42,11 @@
         app:layout_constraintTop_toBottomOf="@id/author"
         tools:text="21 мая в 18:36" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
+        style="@style/Widget.AppTheme.IconOnlyEditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:contentDescription="@string/description_post_menu"
         android:src="@drawable/ic_baseline_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,68 +75,39 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/likeSign"
+        style = "@style/Widget.AppTheme.LikeCheckBox"
+        android:checkable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
         android:contentDescription="@string/description_post_likes"
-        android:src="@drawable/ic_baseline_favorite_border_24"
+        android:button="@drawable/like_selector"
         app:layout_constraintStart_toStartOf="@id/content"
         app:layout_constraintTop_toBottomOf="@id/barrierBottom"
         tools:layout_editor_absoluteX="16dp" />
 
-    <TextView
-        android:id="@+id/likesNumberFigure"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/shareSign"
+        style="@style/Widget.AppTheme.StandardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:contentDescription="@string/description_post_shares"
+        android:icon="@drawable/ic_baseline_share_24"
         app:layout_constraintStart_toEndOf="@id/likeSign"
         app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
 
-    <ImageButton
-        android:id="@+id/shareSign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/description_post_shares"
-        android:src="@drawable/ic_baseline_share_24"
-        app:layout_constraintStart_toEndOf="@id/likesNumberFigure"
-        app:layout_constraintTop_toBottomOf="@id/barrierBottom"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <TextView
-        android:id="@+id/sharesNumberFigure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toEndOf="@id/shareSign"
-        app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
-
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/viewsNumberSign"
+        style="@style/Widget.AppTheme.IconOnlyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="5dp"
-        android:background="@android:color/transparent"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:checkable="false"
+        android:clickable="false"
         android:contentDescription="@string/description_post_views"
-        android:src="@drawable/ic_baseline_remove_red_eye_24"
-        app:layout_constraintEnd_toStartOf="@id/viewsNumberFigure"
-        app:layout_constraintTop_toBottomOf="@id/barrierBottom"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <TextView
-        android:id="@+id/viewsNumberFigure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
+        android:icon="@drawable/ic_baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="@id/content"
         app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
 

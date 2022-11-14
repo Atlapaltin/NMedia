@@ -50,7 +50,10 @@ class MainActivity : AppCompatActivity() {
                 setText(post.postContent)
             }
             binding.oldText.text = post.postContent
-            binding.editCancelGroup.visibility = View.VISIBLE
+            binding.editCancelGroup.visibility = View.VISIBLE //editCancelGroup это название
+                                                             //группы элементов интерфейса в xml-файле,
+                                                             // образующих поля и кнопки
+                                                             // для редактирования поста
         }
         binding.save.setOnClickListener {
             //метод, вызывающий сообщение о том, что пост не может быть пустым
@@ -70,9 +73,13 @@ class MainActivity : AppCompatActivity() {
                 setText("")
                 clearFocus() //удаляем курсор из строки ввода после сохранения поста
                 AndroidUtils.hideKeyboard(it) //прячем клаву после вода и сохранения поста
-                binding.editCancelGroup.visibility = View.GONE
+                binding.editCancelGroup.visibility = View.GONE //editCancelGroup это название
+                                                               //группы элементов интерфейса в xml-файле,
+                                                               // образующих поля и кнопки
+                                                               // для редактирования поста
             }
         }
+        //cancelEdit это название кнопки отмены редактирования в xml-файле
         binding.cancelEdit.setOnClickListener {
             with(binding.content) {
                 viewModel.cancelEdit()
@@ -82,7 +89,8 @@ class MainActivity : AppCompatActivity() {
                 AndroidUtils.hideKeyboard(this)
                 binding.editCancelGroup.visibility = View.GONE
             }
-            binding.oldText.text = ""
+            binding.oldText.text = "" //oldText это название поля со старым текстом поста
+                                      //в режиме редактирования (в xml-файле)
         }
     }
 }
