@@ -11,4 +11,7 @@
     <string name="description_post_cancel_button">Cancel editing</string>
     <string name="description_post_empty_post">Post cannot be empty, write something</string>
     <string name="description_post_edit">Edit post</string>
+    <string name="chooser_share_post">Share post</string>
+    <string name="error_empty_content">No content available</string>
+    <string name="add_bar">ADD</string>
 </resources>

@@ -1,17 +1,11 @@
 package ru.netology.nmedia
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
+import androidx.activity.result.launch
 import androidx.activity.viewModels
-import androidx.annotation.DrawableRes
-import ru.netology.nmedia.PostViewModel
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.post_card_layout.*
 import ru.netology.nmedia.databinding.ActivityMainBinding
-import ru.netology.nmedia.databinding.ActivityMainBinding.inflate
-import ru.netology.nmedia.databinding.PostCardLayoutBinding
-import ru.netology.nmedia.databinding.PostCardLayoutBinding.inflate
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +18,20 @@ class MainActivity : AppCompatActivity() {
             override fun onEdit(post: Post) {viewModel.editById(post)}
             override fun onRemove(post: Post) {viewModel.removeById(post.id)}
             override fun onLike(post: Post) {viewModel.likeById(post.id)}
-            override fun onShare(post: Post) {viewModel.shareById(post.id)}
+            override fun onShare(post: Post) {
+                //Создаем Intent. Это наше намерение выполнить команду на запуск активити,
+                // заложенных в него действий и передачу данных между разными активити
+                val intent = Intent().apply{
+                    action = Intent.ACTION_SEND //отправка данных (репост)
+                    putExtra(Intent.EXTRA_TEXT, post.postContent) //ссылка на текст поста
+                    type="text/plain" //тип отправляемых данных (т.е.текста поста)
+                                      //можно указать text/* для текста любого формата
+                                      //или */* для любого формата данных
+                }
+                //создаем диалоговое окно выбора действий для юзера ("Поделиться")
+                val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(shareIntent) //запуск активити
+            }
         })
 
         binding.list.adapter = adapter
@@ -41,56 +48,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val activityLauncher = registerForActivityResult(NewPostActivity.Contract) {text ->
+            //если text null, то выйти, иначе продолжить
+            text?:return@registerForActivityResult
+            viewModel.changeContent(text.toString())
+            viewModel.save()
+        }
+
         viewModel.edited.observe (this) {post ->
             if (post.id == 0L) {
                 return@observe
             }
-            with(binding.content) {
-                requestFocus()
-                setText(post.postContent)
-            }
-            binding.oldText.text = post.postContent
-            binding.editCancelGroup.visibility = View.VISIBLE //editCancelGroup это название
-                                                             //группы элементов интерфейса в xml-файле,
-                                                             // образующих поля и кнопки
-                                                             // для редактирования поста
+          //  with(binding.content) {
+            //    requestFocus()
+           //     setText(post.postContent)
+         //   }
         }
-        binding.save.setOnClickListener {
+        binding.add.setOnClickListener {
             //метод, вызывающий сообщение о том, что пост не может быть пустым
-            with(binding.content) {
-               val text = text.toString()
-                if(text.isBlank()) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        R.string.description_post_empty_post, //ссылаемся на текст сообщения
-                        Toast.LENGTH_SHORT // указыает на продолжительность показа сообщения
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text)
-                viewModel.save()
-                setText("")
-                clearFocus() //удаляем курсор из строки ввода после сохранения поста
-                AndroidUtils.hideKeyboard(it) //прячем клаву после вода и сохранения поста
-                binding.editCancelGroup.visibility = View.GONE //editCancelGroup это название
-                                                               //группы элементов интерфейса в xml-файле,
-                                                               // образующих поля и кнопки
-                                                               // для редактирования поста
-            }
-        }
-        //cancelEdit это название кнопки отмены редактирования в xml-файле
-        binding.cancelEdit.setOnClickListener {
-            with(binding.content) {
-                viewModel.cancelEdit()
-
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                binding.editCancelGroup.visibility = View.GONE
-            }
-            binding.oldText.text = "" //oldText это название поля со старым текстом поста
-                                      //в режиме редактирования (в xml-файле)
+           activityLauncher.launch()
         }
     }
 }

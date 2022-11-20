@@ -12,4 +12,7 @@
     <string name="description_post_empty_post">Содержание поста не может быть пустым. Напишите что-нибудь</string>
     <string name="description_post_edit">Редактировать пост</string>
     <string name="description_post_cancel_button">Отменить редактирование</string>
+    <string name="chooser_share_post">Поделиться</string>
+    <string name="error_empty_content">Отсутствует содержимое</string>
+    <string name="add_bar">ДОБАВИТЬ</string>
 </resources>
