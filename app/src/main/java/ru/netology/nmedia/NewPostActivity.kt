@@ -13,6 +13,11 @@ class NewPostActivity : AppCompatActivity() {
         val binding = ActivityNewPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //чтобы при редактировании текст
+        // редактируемого поста отобразился в поле ввода:
+        val text = intent?.getStringExtra(Intent.EXTRA_TEXT)
+        binding.content.setText(text)
+
         //обращаемся к нопке добавления нового поста
         //и вызываем поле ввода текста поста (content (это Edit text в xml))
         binding.okButton.setOnClickListener {
@@ -28,15 +33,15 @@ class NewPostActivity : AppCompatActivity() {
             finish()
         }
     }
-
     //класс Contract (принимает и отправляет данные поста между экранами)
 // наследуется от ActivityResultContract с параметрами
 // <входные данные формата Unit, выходные данные формата String?>
-    object Contract : ActivityResultContract<Unit, String?>() {
-        //метод отвечающий за запуск интента
-        override fun createIntent(context: Context, input: Unit) =
-            Intent(context, NewPostActivity::class.java)
+    object Contract : ActivityResultContract<String?, String?>() {
+        //метод отвечающий за запуск интента и активити
+        override fun createIntent(context: Context, input: String?) =
+            Intent(context, NewPostActivity::class.java).putExtra(Intent.EXTRA_TEXT, input)
 
+        // обрабатываем результат ввода текста поста (проверяем null или нет)
         override fun parseResult(resultCode: Int, intent: Intent?) =
             if (resultCode == RESULT_OK) {
                 intent?.getStringExtra(Intent.EXTRA_TEXT)

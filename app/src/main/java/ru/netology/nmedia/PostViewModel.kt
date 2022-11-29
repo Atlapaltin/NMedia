@@ -21,20 +21,19 @@ class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
-    fun save() {
-        edited.value?.let {
-            repository.save(it)
-        }
-        edited.value = empty
-    }
 
-    fun changeContent(content: String) {
+    fun changeContentAndSave(content: String) {
         edited.value?.let {
+            //проверяем, что текст поста отредактирован
+            //и если он отредактирован, то копируем его и сохраняем
             val text = content.trim()
             if (it.postContent == text) {
                 return
             }
-            edited.value = it.copy(postContent = text)
+            edited.value?.let {
+                repository.save(it.copy(postContent = text))
+            }
+            edited.value = empty
         }
     }
 

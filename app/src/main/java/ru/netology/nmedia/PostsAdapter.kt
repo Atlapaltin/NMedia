@@ -1,5 +1,6 @@
 package ru.netology.nmedia
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
@@ -7,6 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.databinding.PostCardLayoutBinding
+import android.content.Intent
+import android.net.Uri
+import android.view.View
 
 interface OnInteractionListener {
     fun onEdit(post: Post)
@@ -33,6 +37,15 @@ class PostViewHolder (
     private val binding: PostCardLayoutBinding,
     private val interactionListener: OnInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
+    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+            return oldItem == newItem
+        }
+    }
 
     fun bind(post: Post) {
         binding.apply {
@@ -43,16 +56,16 @@ class PostViewHolder (
             likeSign.text = Calculations.postStatistics(post.likes)
             shareSign.text = Calculations.postStatistics(post.shared)
             viewsNumberSign.text = Calculations.postStatistics(post.viewed)
-           //sharesNumberFigure.text = Calculations.postStatistics(post.shared)
+            //sharesNumberFigure.text = Calculations.postStatistics(post.shared)
             // viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
             likeSign.isChecked = post.likedByMe //определяем, нажата ли иконка лайка
-                                                // (он сейчас в xml -файле в виде selector)
+            // (он сейчас в xml -файле в виде selector)
 
             //likesNumberFigure.text = post.likes.toString()
 
             // likeSign.setImageResource(
-           //     if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
-          //  )
+            //     if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
+            //  )
             likeSign.setOnClickListener {
                 interactionListener.onLike(post)
             }
@@ -77,16 +90,22 @@ class PostViewHolder (
                     }
                 }.show()
             }
-        }
-    }
 
-    class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem.id == newItem.id
-        }
+            if (!post.videoUrl.isNullOrBlank()) {
+                videoGroup.visibility = View.VISIBLE
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-            return oldItem == newItem
+                val videoClickListener: (View) -> Context = { view ->
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.videoUrl))
+                    view.context.apply {
+                        val shareIntent =
+                            Intent.createChooser(intent, getString(R.string.video_play_button))
+                        startActivity(shareIntent)
+                    }
+                }
+
+                videoButton.setOnClickListener { view -> videoClickListener(view) }
+                videoPicture.setOnClickListener { view -> videoClickListener(view) }
+            }
         }
     }
 }

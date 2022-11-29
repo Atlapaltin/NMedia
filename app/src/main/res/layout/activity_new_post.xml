@@ -8,13 +8,15 @@
 
     <EditText
         android:id="@+id/content"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="top"
         android:background="@android:color/transparent"
         android:hint="@string/description_post_hint"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
         android:padding="@dimen/common_spacing"
+        android:layout_marginBottom="48dp"
         />
 
     <com.google.android.material.bottomappbar.BottomAppBar

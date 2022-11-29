@@ -49,24 +49,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         val activityLauncher = registerForActivityResult(NewPostActivity.Contract) {text ->
-            //если text null, то выйти, иначе продолжить
+            //если text null, то выйти, иначе
+            // вносим введенный текст в добавляемый пост и
+            // сохраняем пост через viewModel
             text?:return@registerForActivityResult
-            viewModel.changeContent(text.toString())
-            viewModel.save()
+            viewModel.changeContentAndSave(text.toString())
         }
 
         viewModel.edited.observe (this) {post ->
             if (post.id == 0L) {
                 return@observe
             }
-          //  with(binding.content) {
-            //    requestFocus()
-           //     setText(post.postContent)
-         //   }
+            //редактирование поста
+            activityLauncher.launch(post.postContent)
+
         }
         binding.add.setOnClickListener {
-            //метод, вызывающий сообщение о том, что пост не может быть пустым
-           activityLauncher.launch()
+            //метод, запускающий контракт (т.е. интент+активити с кнопкой добавления поста)
+           activityLauncher.launch(null)
         }
     }
 }

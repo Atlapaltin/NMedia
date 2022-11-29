@@ -64,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/indent"
+        android:layout_marginBottom="48dp"
         app:layout_constraintTop_toBottomOf="@id/barrierTop"
         tools:text="Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb" />
     />
@@ -73,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="content" />
+        app:constraint_referenced_ids="content, videoPicture" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likeSign"
@@ -110,5 +111,39 @@
         android:icon="@drawable/ic_baseline_remove_red_eye_24"
         app:layout_constraintEnd_toEndOf="@id/content"
         app:layout_constraintTop_toBottomOf="@id/barrierBottom" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/videoGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_spacing"
+        android:visibility="gone"
+        app:constraint_referenced_ids="videoPicture,videoButton" />
+
+    <ImageView
+        android:id="@+id/videoPicture"
+        android:layout_width="0dp"
+        android:layout_height="256dp"
+        android:layout_marginBottom="@dimen/common_spacing"
+        android:contentDescription="@string/video_play_button"
+        android:src="@mipmap/ic_video_preview"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/videoButton"
+        style="@style/Widget.AppTheme.VideoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_spacing"
+        android:contentDescription="@string/video_play_button"
+        app:icon="@drawable/ic_video_play_button"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="@id/videoPicture"
+        app:layout_constraintEnd_toEndOf="@id/videoPicture"
+        app:layout_constraintStart_toStartOf="@id/videoPicture"
+        app:layout_constraintTop_toTopOf="@id/videoPicture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
