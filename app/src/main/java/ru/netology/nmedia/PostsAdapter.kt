@@ -52,26 +52,20 @@ class PostViewHolder (
             author.text = post.authorName
             published.text = post.publishDate
             content.text = post.postContent
-            //likesNumberFigure.text = Calculations.postStatistics(post.likes)
             likeSign.text = Calculations.postStatistics(post.likes)
             shareSign.text = Calculations.postStatistics(post.shared)
             viewsNumberSign.text = Calculations.postStatistics(post.viewed)
-            //sharesNumberFigure.text = Calculations.postStatistics(post.shared)
-            // viewsNumberFigure.text = Calculations.postStatistics(post.viewed)
             likeSign.isChecked = post.likedByMe //определяем, нажата ли иконка лайка
-            // (он сейчас в xml -файле в виде selector)
-
-            //likesNumberFigure.text = post.likes.toString()
-
-            // likeSign.setImageResource(
-            //     if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_baseline_favorite_border_24
-            //  )
+                                                // (она сейчас в xml -файле в виде selector)
+            //слушатель нажатия лайка
             likeSign.setOnClickListener {
                 interactionListener.onLike(post)
             }
+            //слушатель нажатия репоста
             shareSign.setOnClickListener {
                 interactionListener.onShare(post)
             }
+            //слушатель нажатия кнопки меню (три верт.точки сверху поста)
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
@@ -90,7 +84,10 @@ class PostViewHolder (
                     }
                 }.show()
             }
-
+            //если видео-контент не пустой (прошел проверку isNullOrBlank()),
+            //то запускается слушатель клика по кнопке play,
+            //который при нажатии кнопки запускает интент со вью
+            //и парсит содержиме ссылки в формат видео
             if (!post.videoUrl.isNullOrBlank()) {
                 videoGroup.visibility = View.VISIBLE
 
@@ -103,9 +100,10 @@ class PostViewHolder (
                     }
                 }
 
-                videoButton.setOnClickListener { view -> videoClickListener(view) }
-                videoPicture.setOnClickListener { view -> videoClickListener(view) }
-            }
+                videoButton.setOnClickListener { view -> videoClickListener(view) } //слушатель нажатия
+                videoPicture.setOnClickListener { view -> videoClickListener(view) }//превью-картинка
+
+            } else videoGroup.visibility = View.GONE
         }
     }
 }
