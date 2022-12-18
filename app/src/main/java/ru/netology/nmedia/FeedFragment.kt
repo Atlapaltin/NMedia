@@ -2,18 +2,23 @@ package ru.netology.nmedia
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.launch
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import ru.netology.nmedia.databinding.ActivityMainBinding
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+class FeedFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = FragmentFeedBinding.inflate(inflater, container,false)
 
-        val viewModel: PostViewModel by viewModels()
+        val viewModel by viewModels <PostViewModel> (ownerProducer = :: requireParentFragment)
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {viewModel.editById(post)}
             override fun onRemove(post: Post) {viewModel.removeById(post.id)}
@@ -35,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         binding.list.adapter = adapter
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             val newPost = adapter.itemCount < posts.size
             //если длина текущ.списка постов меньше длины
             // нового списка, то происходит промотка по методу ниже
@@ -48,25 +53,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val activityLauncher = registerForActivityResult(NewPostActivity.Contract) {text ->
-            //если text null, то выйти, иначе
-            // вносим введенный текст в добавляемый пост и
-            // сохраняем пост через viewModel
-            text?:return@registerForActivityResult
-            viewModel.changeContentAndSave(text.toString())
-        }
-
-        viewModel.edited.observe (this) {post ->
+        viewModel.edited.observe (viewLifecycleOwner) {post ->
             if (post.id == 0L) {
                 return@observe
             }
             //редактирование поста
-            activityLauncher.launch(post.postContent)
+           post.postContent
 
         }
         binding.add.setOnClickListener {
-            //метод, запускающий контракт (т.е. интент+активити с кнопкой добавления поста)
-           activityLauncher.launch(null)
+            //
+           findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
+        return binding.root
     }
 }

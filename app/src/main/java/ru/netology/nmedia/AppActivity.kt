@@ -4,13 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
-import ru.netology.nmedia.databinding.ActivityIntentHandlerBinding
+import ru.netology.nmedia.NewPostFragment.Companion.textArg
+import ru.netology.nmedia.databinding.ActivityAppBinding
 
-class IntentHandlerActivity : AppCompatActivity() {
+class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityIntentHandlerBinding.inflate(layoutInflater)
+        val binding = ActivityAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //обращаемся к данным интента через safe call (на случай, если там null)
@@ -26,7 +30,7 @@ class IntentHandlerActivity : AppCompatActivity() {
                 Snackbar.make(
                     binding.root,
                     R.string.error_empty_content,
-                    Snackbar.LENGTH_INDEFINITE
+                    LENGTH_INDEFINITE
                 )
                     //устанавливаем кнопку для пользователя (что делать)
                     .setAction(android.R.string.ok) {
@@ -35,8 +39,12 @@ class IntentHandlerActivity : AppCompatActivity() {
                     .show() //вызывает метод отображения сообщения о пустом содержимом
                 return@let
             }
-            //если текст не пустой (написать действие на этот случай)
-            Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.container)
+                    as NavHostFragment
+            navHostFragment.navController.navigate(
+                R.id.action_feedFragment_to_newPostFragment,
+            Bundle().apply {textArg = text}
+            )
         }
     }
 }
