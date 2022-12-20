@@ -37,6 +37,7 @@ class FeedFragment : Fragment() {
                 val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent) //запуск активити
             }
+
         })
 
         binding.list.adapter = adapter
