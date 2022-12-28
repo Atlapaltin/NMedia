@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.FragmentOfOnePost.Companion.idArg
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 
 class FeedFragment : Fragment() {
@@ -38,7 +39,12 @@ class FeedFragment : Fragment() {
                 startActivity(shareIntent) //запуск активити
             }
 
+            override fun onPost(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost)
+            }
         })
+
+
 
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { posts ->

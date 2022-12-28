@@ -9,7 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.databinding.FragmentOfOnePostBinding
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
+object LongArg: ReadWriteProperty<Bundle, Long> {
+    override fun getValue(thisRef: Bundle, property: KProperty<*>): Long =
+        thisRef.getLong(property.name)
+
+    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: Long) {
+        thisRef.putLong(property.name, value)
+    }
+}
 
 class FragmentOfOnePost : Fragment() {
     override fun onCreateView(
@@ -50,20 +60,18 @@ class FragmentOfOnePost : Fragment() {
                 startActivity(shareIntent) //запуск активити
             }
 
-            fun bind(post: Post) {
-                binding.root.setOnClickListener {
-
-                }
+            override fun onPost(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost, Bundle().apply { idArg = post.id })
             }
-
         })
 
         //начинаем наблюдать за изменениям в ленте постов
         viewModel.data.observe(viewLifecycleOwner) { posts ->
-            val post = posts.find { it.id == 1L } ?: run {
+            val post = posts.find { it.id == arguments?.idArg } ?: run {
                 findNavController().navigateUp()
                 return@observe
             }
+            viewHolder.bind(post)
         }
 
         //текст отображаемого поста
@@ -85,5 +93,6 @@ class FragmentOfOnePost : Fragment() {
 
     companion object {
         var Bundle.textArg by StringArg
+        var Bundle.idArg by LongArg
     }
 }

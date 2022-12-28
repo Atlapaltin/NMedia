@@ -17,6 +17,7 @@ interface OnInteractionListener {
     fun onRemove(post: Post)
     fun onLike(post: Post)
     fun onShare(post: Post)
+    fun onPost(post: Post)
 }
 
 class PostsAdapter (
@@ -84,6 +85,11 @@ class PostViewHolder (
                     }
                 }.show()
             }
+
+            root.setOnClickListener {
+                interactionListener.onPost(post)
+            }
+
             //если видео-контент не пустой (прошел проверку isNullOrBlank()),
             //то запускается слушатель клика по кнопке play,
             //который при нажатии кнопки запускает интент со вью
