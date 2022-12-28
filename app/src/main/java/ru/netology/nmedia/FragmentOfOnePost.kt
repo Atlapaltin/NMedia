@@ -34,6 +34,8 @@ class FragmentOfOnePost : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.editById(post)
+                findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost,
+                    Bundle().apply {textArg = post.postContent})
             }
 
             override fun onRemove(post: Post) {

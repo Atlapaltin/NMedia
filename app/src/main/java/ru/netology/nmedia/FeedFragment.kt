@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.FragmentOfOnePost.Companion.idArg
+import ru.netology.nmedia.FragmentOfOnePost.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 
 class FeedFragment : Fragment() {
@@ -64,9 +65,8 @@ class FeedFragment : Fragment() {
             if (post.id == 0L) {
                 return@observe
             }
-            //редактирование поста
-           post.postContent
-
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment,
+                Bundle().apply {textArg = post.postContent})
         }
         binding.add.setOnClickListener {
             //
