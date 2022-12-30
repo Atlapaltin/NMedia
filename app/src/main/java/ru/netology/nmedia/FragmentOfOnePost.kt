@@ -63,7 +63,7 @@ class FragmentOfOnePost : Fragment() {
             }
 
             override fun onPost(post: Post) {
-                findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost, Bundle().apply { idArg = post.id })
+                //findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost, Bundle().apply { idArg = post.id })
             }
         })
 
