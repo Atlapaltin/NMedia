@@ -38,6 +38,7 @@ class NewPostFragment : Fragment() {
             if (text.isNotBlank()) {
                 viewModel.changeContentAndSave(text)
             }
+            AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
         return binding.root

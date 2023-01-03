@@ -34,7 +34,7 @@ class FragmentOfOnePost : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.editById(post)
-                findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost,
+                findNavController().navigate(R.id.action_fragmentOfOnePost_to_newPostFragment,
                     Bundle().apply {textArg = post.postContent})
             }
 
@@ -63,7 +63,7 @@ class FragmentOfOnePost : Fragment() {
             }
 
             override fun onPost(post: Post) {
-                //findNavController().navigate(R.id.action_feedFragment_to_fragmentOfOnePost, Bundle().apply { idArg = post.id })
+
             }
         })
 

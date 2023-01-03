@@ -46,8 +46,6 @@ class FeedFragment : Fragment() {
             }
         })
 
-
-
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             val newPost = adapter.itemCount < posts.size
@@ -70,7 +68,6 @@ class FeedFragment : Fragment() {
                 Bundle().apply {textArg = post.postContent})
         }
         binding.add.setOnClickListener {
-
            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
         return binding.root
