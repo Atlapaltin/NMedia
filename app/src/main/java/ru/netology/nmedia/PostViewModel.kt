@@ -26,7 +26,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             //и если он отредактирован, то копируем его и сохраняем
             val text = content.trim()
             if (it.postContent == text) {
-                return
+                //return
+                repository.save(it.copy(postContent = text))
             }
             edited.value?.let {
                 repository.save(it.copy(postContent = text))
