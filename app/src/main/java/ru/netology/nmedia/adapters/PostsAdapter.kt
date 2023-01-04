@@ -11,6 +11,8 @@ import ru.netology.nmedia.databinding.PostCardLayoutBinding
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import ru.netology.nmedia.datatransfer.Post
+import ru.netology.nmedia.tools.Calculations
 
 interface OnInteractionListener {
     fun onEdit(post: Post)

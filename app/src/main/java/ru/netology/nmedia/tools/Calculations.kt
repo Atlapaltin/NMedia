@@ -1,4 +1,4 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.tools
 
 object Calculations {
     fun postStatistics(count: Int): String {

@@ -1,11 +1,5 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activities
 
-import android.app.Activity
-import android.app.Activity.RESULT_CANCELED
-import android.app.Activity.RESULT_OK
-import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.tools.AndroidUtils
+import ru.netology.nmedia.viewtools.PostViewModel
+import ru.netology.nmedia.tools.StringArg
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
-
 
 class NewPostFragment : Fragment() {
     override fun onCreateView(
@@ -23,11 +19,11 @@ class NewPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentNewPostBinding.inflate(inflater, container, false)
-        arguments?.textArg?.let{
+        arguments?.textArg?.let {
             binding.content.setText(it)
         } //можно также записать как: arguments?.textArg?.let(binding.content::setText)
 
-        val viewModel by viewModels <PostViewModel> (ownerProducer = :: requireParentFragment)
+        val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
 
         binding.content.requestFocus()
 

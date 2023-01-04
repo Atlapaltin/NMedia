@@ -1,4 +1,4 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.OnInteractionListener
+import ru.netology.nmedia.PostViewHolder
+import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentOfOnePostBinding
+import ru.netology.nmedia.datatransfer.Post
+import ru.netology.nmedia.tools.StringArg
+import ru.netology.nmedia.viewtools.PostViewModel
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -34,7 +40,8 @@ class FragmentOfOnePost : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.editById(post)
-                findNavController().navigate(R.id.action_fragmentOfOnePost_to_newPostFragment,
+                findNavController().navigate(
+                    R.id.action_fragmentOfOnePost_to_newPostFragment,
                     Bundle().apply {textArg = post.postContent})
             }
 

@@ -1,8 +1,11 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.viewtools
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.apprepositories.PostRepository
+import ru.netology.nmedia.apprepositories.PostRepositoryFilesImpl
+import ru.netology.nmedia.datatransfer.Post
 
 private val empty = Post(
     id = 0,
@@ -39,6 +42,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun cancelEdit() {
         edited.value = empty
     }
+
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
     fun removeById(id: Long) = repository.removeById(id)

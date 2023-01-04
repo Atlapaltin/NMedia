@@ -1,14 +1,13 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
-import ru.netology.nmedia.NewPostFragment.Companion.textArg
+import ru.netology.nmedia.activities.NewPostFragment.Companion.textArg
+import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityAppBinding
 
 class AppActivity : AppCompatActivity() {
@@ -43,7 +42,7 @@ class AppActivity : AppCompatActivity() {
                     as NavHostFragment
             navHostFragment.navController.navigate(
                 R.id.action_feedFragment_to_newPostFragment,
-            Bundle().apply {textArg = text}
+                Bundle().apply { textArg = text }
             )
         }
     }
