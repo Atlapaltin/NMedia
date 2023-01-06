@@ -1,11 +1,10 @@
 package ru.netology.nmedia.viewtools
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import ru.netology.nmedia.apprepositories.PostRepository
-import ru.netology.nmedia.apprepositories.PostRepositoryFilesImpl
+import androidx.lifecycle.*
+import ru.netology.nmedia.database.AppDb
 import ru.netology.nmedia.datatransfer.Post
+import ru.netology.nmedia.apprepositories.*
 
 private val empty = Post(
     id = 0,
@@ -19,35 +18,33 @@ private val empty = Post(
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryFilesImpl(application)
+    private val repository: PostRepository = PostRepositoryRoomImpl(
+        AppDb.getInstance(application).postDao
+    )
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
 
-    fun changeContentAndSave(content: String) {
+    fun save() {
         edited.value?.let {
-            //проверяем, что текст поста отредактирован
-            //и если он отредактирован, то копируем его и сохраняем
-            val text = content.trim()
-            if (it.postContent == text) {
-                //return
-                repository.save(it.copy(postContent = text))
-            }
-            edited.value?.let {
-                repository.save(it.copy(postContent = text))
-            }
-            edited.value = empty
+            repository.save(it)
         }
+        edited.value = empty
     }
 
-    fun cancelEdit() {
+    fun editById(post: Post) {
         edited.value = empty
+    }
+
+    fun changeContent(postContent:String){
+        val text = postContent.trim()
+        if (edited.value?.postContent == text) {
+            return
+        }
+        edited.value = edited.value?.copy(postContent = text)
     }
 
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
     fun removeById(id: Long) = repository.removeById(id)
-    fun editById(post: Post) {
-        edited.value = post
-    }
 
 }

@@ -1,4 +1,4 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import ru.netology.nmedia.databinding.PostCardLayoutBinding
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import ru.netology.nmedia.R
 import ru.netology.nmedia.datatransfer.Post
 import ru.netology.nmedia.tools.Calculations
 
@@ -23,7 +24,8 @@ interface OnInteractionListener {
 }
 
 class PostsAdapter (
-    private val interactionListener: OnInteractionListener):
+    private val interactionListener: OnInteractionListener
+):
     ListAdapter<Post, PostViewHolder>(PostViewHolder.PostDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {

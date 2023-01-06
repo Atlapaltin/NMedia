@@ -13,34 +13,35 @@ import ru.netology.nmedia.tools.StringArg
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
 
 class NewPostFragment : Fragment() {
+
+    companion object {
+        var Bundle.textArg: String? by StringArg
+    }
+
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentNewPostBinding.inflate(inflater, container, false)
-        arguments?.textArg?.let {
-            binding.content.setText(it)
-        } //можно также записать как: arguments?.textArg?.let(binding.content::setText)
+        val binding = FragmentNewPostBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
-        val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
+        arguments?.textArg
+            ?.let(binding.content::setText)
 
-        binding.content.requestFocus()
-
-        //обращаемся к кнопке добавления нового поста
-        //и вызываем поле ввода текста поста (content (это Edit text в xml))
         binding.okButton.setOnClickListener {
-            val text = binding.content.text.toString()
-            if (text.isNotBlank()) {
-                viewModel.changeContentAndSave(text)
-            }
+            viewModel.changeContent(binding.content.text.toString())
+            viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
         return binding.root
-    }
-
-    companion object {
-        var Bundle.textArg by StringArg
     }
 }

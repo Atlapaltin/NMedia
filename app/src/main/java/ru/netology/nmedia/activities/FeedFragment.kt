@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.*
 import ru.netology.nmedia.activities.FragmentOfOnePost.Companion.idArg
 import ru.netology.nmedia.activities.FragmentOfOnePost.Companion.textArg
+import ru.netology.nmedia.adapters.OnInteractionListener
+import ru.netology.nmedia.adapters.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.datatransfer.Post
 import ru.netology.nmedia.viewtools.PostViewModel
