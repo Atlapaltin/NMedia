@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import ru.netology.nmedia.R
 import kotlin.random.Random
 
+
 class FCMService : FirebaseMessagingService() {
     private val action = "action"
     private val content = "content"
