@@ -1,5 +1,6 @@
 package ru.netology.nmedia.service
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -59,6 +60,7 @@ class FCMService : FirebaseMessagingService() {
         println(token)
     }
 
+    @SuppressLint("MissingPermission")
     private fun handleNotification(contentTitle: String, contentText: String?) {
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
@@ -72,6 +74,7 @@ class FCMService : FirebaseMessagingService() {
         }
 
         val notification = notificationBuilder.build()
+
 
         NotificationManagerCompat.from(this)
             .notify(Random.nextInt(100_000), notification)
